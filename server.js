@@ -10,7 +10,6 @@ mongoose.connect(process.env.DATABASE).then(()=> {
     console.log(`Database connection is successfully`)
 });
 
-
 app.listen(port, () => {
   console.log(`Tour Server is running on ${port}`.yellow.bold)
 })
