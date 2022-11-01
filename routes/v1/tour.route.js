@@ -21,6 +21,10 @@ router.route('/:id')
  * @api {get tours by id} Post tour here
  */
 .get(toursController.getTourById)
+/**
+ * @api {Update tours} update tour by using id
+ */
+.patch(toursController.updateTourById)
 
 
 

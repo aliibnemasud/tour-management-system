@@ -1,5 +1,5 @@
 const Tour = require("../models/Tour");
-const { getTours, getToursService, postTourService, findTourByIdServices } = require("../services/tour.services");
+const { getToursService, postTourService, findTourByIdService, updateTourByIdService } = require("../services/tour.services");
 
 // get all tours controller
 
@@ -44,7 +44,7 @@ exports.postTours = async (req, res, next) => {
 exports.getTourById = async (req, res, next) => {
   try {
     const { id } = req.params;    
-    const result = await findTourByIdServices(id);
+    const result = await findTourByIdService(id);
     res.status(200).json({
       status: "Success!",
       data: result
@@ -54,6 +54,26 @@ exports.getTourById = async (req, res, next) => {
     res.status(400).json({
       status: "Fail!",
       message: "Data not found",
+      error: error.message
+    })    
+  }
+}
+
+// Update tours by id parameter
+
+exports.updateTourById = async (req, res, next) => {
+  try {
+    const { id } = req.params;    
+    const result = await updateTourByIdService(id, req.body);
+    res.status(200).json({
+      status: "Success!",
+      data: result
+    })
+        
+  } catch (error) {
+    res.status(400).json({
+      status: "Fail!",
+      message: "Can't update the file!",
       error: error.message
     })    
   }
