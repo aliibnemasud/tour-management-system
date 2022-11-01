@@ -5,19 +5,22 @@ const toursController = require('../../controller/tour.controller');
 
 
 router.route('/')
-
 /**
  * @api {get} Get all the tour details here
  * @require {admin}
  */
 .get(toursController.getTours)
-
 /**
- * @api {get} Get all the tour details here
- * @require {admin}
+ * @api {post} Post tour here
+ * required field {name, description, price, tickets (in-stock, out-of-stock)}
  */
-
 .post(toursController.postTours)
+
+router.route('/:id')
+/**
+ * @api {get tours by id} Post tour here
+ */
+.get(toursController.getTourById)
 
 
 

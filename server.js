@@ -7,7 +7,7 @@ const colors = require('colors');
 // Db connection
 
 mongoose.connect(process.env.DATABASE).then(()=> {
-    console.log(`Database connection is successfully`)
+    console.log(`Database connection is successfully`.red.bold)
 });
 
 app.listen(port, () => {
