@@ -1,30 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const toursController = require('../../controller/tour.controller');
 
 
-router.get('/', (req, res) => {
+router.route('/')
 
-    res.send("Hello from the route")
-})
+/**
+ * @api {get} Get all the tour details here
+ * @require {admin}
+ */
+.get(toursController.getTours)
 
-router.post('/', async (req, res, next) => {
-    try {
-        const tour = new Tour(req.body);
-        const result = await tour.save();
-        res.status(200).json({
-            status: "Success!",
-            message: "Tour data inserted Successfully!",
-            data: result
-        })
+/**
+ * @api {get} Get all the tour details here
+ * @require {admin}
+ */
 
-    } catch (error) {
-        res.status(400).json({
-            status: "Failed!",
-            message: "Data inserted Fail",
-            error: error.message
-        })
-    }
-})
+.post(toursController.postTours)
+
+
 
 module.exports = router;
