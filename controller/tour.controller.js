@@ -5,11 +5,18 @@ const { getToursService, postTourService, findTourByIdService, updateTourByIdSer
 
 exports.getTours = async (req, res, next) => {
   try {
-    const filters = { ...req.query };
+    let filters = { ...req.query };
+
     const excludesFields = ['sort', 'page', 'limit'];
-    
     excludesFields.forEach(field => delete filters[field]);
 
+    // gt, lt, gte, lte
+    let filterString = JSON.stringify(filters)
+    filterString = filterString.replace(/\b(gt|gte|lt|lte)\b/g, match => `$${match}`);
+    
+    filters = JSON.parse(filterString)
+
+    // limit, sort, select ->  Are store Here    
     const queries = {};
 
     if(req.query.sort){
@@ -24,6 +31,7 @@ exports.getTours = async (req, res, next) => {
       const limit = req.query.limit;  
       queries.limit = limit;
     }
+
     const tour = await Tour.find(filters).select(queries.fields).sort(queries.sortBy).limit(queries.limit);
     res.status(200).json({
       status: "Success!",
