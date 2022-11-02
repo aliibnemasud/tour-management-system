@@ -34,6 +34,10 @@ const tourSchema = mongoose.Schema({
     updateAt: {
       type: Date,
       default: Date.now,
+    },
+    viewCount: {
+      type: Number,
+      default: 0
     }
   })
   

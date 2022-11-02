@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const toursController = require('../../controller/tour.controller');
 
 
-router.route('/')
+router.route('/tours')
 /**
  * @api {get} Get all the tour details here
  * @require {admin}
@@ -16,15 +16,29 @@ router.route('/')
  */
 .post(toursController.postTours)
 
-router.route('/:id')
 /**
  * @api {get tours by id} Post tour here
  */
-.get(toursController.getTourById)
+
+router.route('/tours/:id').get(toursController.getTourById)
+
+/**
+ * @api {Get} Trending tour 
+ */
+
+router.get('/tour/trending', toursController.getTrendingTour)
+
+/**
+ * @api {Get} Get Cheapest tour 
+ */
+
+router.get('/tour/cheapest', toursController.getCheapestTour)
+
 /**
  * @api {Update tours} update tour by using id
  */
-.patch(toursController.updateTourById)
+
+router.route('/tour/:id').patch(toursController.updateTourById)
 
 
 
