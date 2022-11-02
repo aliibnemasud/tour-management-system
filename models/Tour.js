@@ -38,6 +38,10 @@ const tourSchema = mongoose.Schema({
     viewCount: {
       type: Number,
       default: 0
+    },
+    image: {
+      type: String,
+      default: "https://blog.flyticket.com.bd/wp-content/uploads/2020/05/image009.jpg"      
     }
   })
   

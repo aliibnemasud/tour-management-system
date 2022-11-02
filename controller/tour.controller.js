@@ -1,5 +1,5 @@
 const Tour = require("../models/Tour");
-const { getToursService, postTourService, findTourByIdService, updateTourByIdService } = require("../services/tour.services");
+const { getToursService, postTourService, findTourByIdService, updateTourByIdService, getTrendingTourService, getCheapestTourService } = require("../services/tour.services");
 
 // get all tours controller
 
@@ -43,7 +43,9 @@ exports.getTours = async (req, res, next) => {
       queries.limit = (+limit);
     }
 
-    const tour = await Tour.find(filters).skip(queries.skip).limit(queries.limit).select(queries.fields).sort(queries.sortBy);
+    // const tour = await Tour.find(filters).skip(queries.skip).limit(queries.limit).select(queries.fields).sort(queries.sortBy);
+
+    const tour = await getToursService(filters, queries.skip, queries.limit, queries.fields, queries.sortBy)
     res.status(200).json({
       status: "Success!",
       data: tour
@@ -121,7 +123,8 @@ exports.updateTourById = async (req, res, next) => {
 
 exports.getTrendingTour = async (req, res, next) => {
   try {    
-    const result = await Tour.find({}).sort('-viewCount').limit(3);
+    // const result = await Tour.find({}).sort('-viewCount').limit(3);
+    const result = await getTrendingTourService ();
     res.status(200).json({
       status: "Success!",
       data: result
@@ -140,7 +143,7 @@ exports.getTrendingTour = async (req, res, next) => {
 
 exports.getCheapestTour = async (req, res, next) => {
   try {    
-    const result = await Tour.find({}).sort('price').limit(3);
+    const result = await getCheapestTourService();
     res.status(200).json({
       status: "Success!",
       data: result
