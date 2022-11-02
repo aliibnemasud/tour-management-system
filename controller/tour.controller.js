@@ -5,7 +5,26 @@ const { getToursService, postTourService, findTourByIdService, updateTourByIdSer
 
 exports.getTours = async (req, res, next) => {
   try {
-    const tour = await getToursService();
+    const filters = { ...req.query };
+    const excludesFields = ['sort', 'page', 'limit'];
+    
+    excludesFields.forEach(field => delete filters[field]);
+
+    const queries = {};
+
+    if(req.query.sort){
+      const sortBy = req.query.sort.split(',').join(' ');      
+      queries.sortBy = sortBy;
+    }
+    if(req.query.fields){
+      const fields = req.query.fields.split(',').join(' ');      
+      queries.fields = fields;
+    }
+    if(req.query.limit){
+      const limit = req.query.limit;  
+      queries.limit = limit;
+    }
+    const tour = await Tour.find(filters).select(queries.fields).sort(queries.sortBy).limit(queries.limit);
     res.status(200).json({
       status: "Success!",
       data: tour
@@ -43,19 +62,19 @@ exports.postTours = async (req, res, next) => {
 
 exports.getTourById = async (req, res, next) => {
   try {
-    const { id } = req.params;    
+    const { id } = req.params;
     const result = await findTourByIdService(id);
     res.status(200).json({
       status: "Success!",
       data: result
     })
-        
+
   } catch (error) {
     res.status(400).json({
       status: "Fail!",
       message: "Data not found",
       error: error.message
-    })    
+    })
   }
 }
 
@@ -63,18 +82,18 @@ exports.getTourById = async (req, res, next) => {
 
 exports.updateTourById = async (req, res, next) => {
   try {
-    const { id } = req.params;    
+    const { id } = req.params;
     const result = await updateTourByIdService(id, req.body);
     res.status(200).json({
       status: "Success!",
       data: result
     })
-        
+
   } catch (error) {
     res.status(400).json({
       status: "Fail!",
       message: "Can't update the file!",
       error: error.message
-    })    
+    })
   }
 }

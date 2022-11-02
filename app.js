@@ -9,8 +9,6 @@ app.use(express.json());
 
 app.use('/api/v1/tour', tourRoutes)
 
-
-
 // app.use('/api/v1/tour', tourRoutes);
 
 app.get('/', (req, res) => {
